@@ -36,14 +36,22 @@ function Toasts.show(text: string)
 	local label = New("TextLabel", {
 		BackgroundColor3 = Theme.colors.panel,
 		Size = UDim2.fromOffset(540, 46),
+		AutomaticSize = Enum.AutomaticSize.Y, -- un texte long passe sur deux lignes
 		Font = Theme.fonts.body,
 		Text = text,
 		TextSize = 24,
+		TextWrapped = true,
 		TextColor3 = Theme.colors.text,
 		AutoLocalize = false,
 		Parent = list,
 	}, {
 		New("UICorner", { CornerRadius = UDim.new(0, 12) }),
+		New("UIPadding", {
+			PaddingLeft = UDim.new(0, 12),
+			PaddingRight = UDim.new(0, 12),
+			PaddingTop = UDim.new(0, 6),
+			PaddingBottom = UDim.new(0, 6),
+		}),
 		New("UIStroke", {
 			Thickness = 2,
 			Color = Theme.colors.stroke,
