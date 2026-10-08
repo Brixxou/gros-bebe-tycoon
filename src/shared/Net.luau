@@ -6,9 +6,12 @@ local RunService = game:GetService("RunService")
 local NAMES = {
 	"Click", -- client → serveur : un appui sur PUSH!
 	"BuyDiaper", -- client → serveur : acheter la couche suivante
+	"Rebirth", -- client → serveur : faire un rebirth
 	"State", -- serveur → client : état de la partie du joueur (Snapshot)
 	"Toast", -- serveur → client : message court (clé de traduction, arguments)
 	"Effect", -- serveur → client : effet ("credit" au pot, "mega" caca), avec une valeur
+	"WelcomeBack", -- serveur → client : gains hors ligne crédités (PoopCoins, secondes d'absence)
+	"Announce", -- serveur → tous : annonce (clé de traduction, arguments)
 }
 
 -- Ce que le client sait de sa partie.
@@ -16,9 +19,12 @@ export type Snapshot = {
 	coins: number,
 	binkies: number,
 	totalEarned: number,
+	totalClicks: number,
 	buttons: number,
 	diaper: number,
+	rebirths: number,
 	clicksSinceMega: number,
+	tutorial: number, -- étape du tutoriel (0 = pas commencé, 99 = terminé)
 	income: number,
 	baseIncome: number,
 }

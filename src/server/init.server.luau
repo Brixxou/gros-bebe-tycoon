@@ -16,6 +16,8 @@ local services: { any } = {
 	require(Services.ProductionService),
 	require(Services.ClickService),
 	require(Services.ShopService),
+	require(Services.LeaderstatsService),
+	require(Services.RebirthService),
 	require(Services.DebugService),
 }
 

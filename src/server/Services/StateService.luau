@@ -23,9 +23,12 @@ function StateService.snapshot(player: Player): Net.Snapshot?
 		coins = data.coins,
 		binkies = data.binkies,
 		totalEarned = data.totalEarned,
+		totalClicks = data.totalClicks,
 		buttons = data.buttons,
 		diaper = data.diaper,
+		rebirths = data.rebirths,
 		clicksSinceMega = data.clicksSinceMega,
+		tutorial = data.tutorial,
 		income = IncomeService.income(player),
 		baseIncome = IncomeService.baseIncome(player),
 	}

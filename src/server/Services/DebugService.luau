@@ -4,6 +4,7 @@
 --   game.ServerStorage.DebugCommands:Invoke("give", 1e9)
 --   game.ServerStorage.DebugCommands:Invoke("setButtons", 22)
 --   game.ServerStorage.DebugCommands:Invoke("setDiaper", 10)
+--   game.ServerStorage.DebugCommands:Invoke("setRebirths", 9)
 --   game.ServerStorage.DebugCommands:Invoke("reset")
 --   print(game.ServerStorage.DebugCommands:Invoke("info"))
 -- Elles visent le premier joueur du serveur.
@@ -50,6 +51,11 @@ local commands: { [string]: (...any) -> ...any } = {
 		data.diaper = index
 		changed(player)
 	end,
+	setRebirths = function(count: number)
+		local player, data = target()
+		data.rebirths = count
+		changed(player)
+	end,
 	-- Remet le profil à neuf.
 	reset = function()
 		local player, data = target()
@@ -65,14 +71,17 @@ local commands: { [string]: (...any) -> ...any } = {
 	info = function(): string
 		local player, data = target()
 		return string.format(
-			"%s : %s PoopCoins, %d boutons, couche %d, %d cacas, %d clics, %s/s",
+			"%s : %s PoopCoins, %d boutons, couche %d, %d rebirths, %s Tétines, %d cacas, %d clics, %s/s, tuto %d",
 			player.Name,
 			Format.number(data.coins),
 			data.buttons,
 			data.diaper,
+			data.rebirths,
+			Format.number(data.binkies),
 			data.totalPoops,
 			data.totalClicks,
-			Format.number(IncomeService.income(player))
+			Format.number(IncomeService.income(player)),
+			data.tutorial
 		)
 	end,
 }

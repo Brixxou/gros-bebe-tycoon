@@ -66,6 +66,16 @@ function ProductionService.spawn(player: Player, value: number, mega: boolean)
 		{ model = model, owner = player, value = value, expires = os.clock() + Config.poopSafetySeconds }
 end
 
+-- Détruit les cacas du joueur encore en route, sans les créditer (ex. au rebirth).
+function ProductionService.clear(player: Player)
+	for root, poop in live do
+		if poop.owner == player then
+			live[root] = nil
+			poop.model:Destroy()
+		end
+	end
+end
+
 local function onCharacter(character: Model)
 	for _, part in character:GetDescendants() do
 		if part:IsA("BasePart") then
