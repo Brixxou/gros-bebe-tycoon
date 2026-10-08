@@ -1,0 +1,43 @@
+local T = require("./lib/t")
+local Data = require("../src/shared/Logic/Data")
+local Shop = require("../src/shared/Logic/Shop")
+
+T.describe("Shop", function()
+	T.it("achète le biberon gratuit puis bloque faute d'argent", function()
+		local data = Data.template()
+		local first = Shop.buyNextButton(data)
+		T.eq(first.reason, "bought")
+		T.eq(data.buttons, 1)
+		local second = Shop.buyNextButton(data)
+		T.eq(second.reason, "poor")
+		T.eq(second.missing, 50)
+		T.eq(data.buttons, 1)
+	end)
+	T.it("débite le prix du bouton", function()
+		local data = Data.template()
+		data.buttons = 1
+		data.coins = 80
+		T.eq(Shop.buyNextButton(data).reason, "bought")
+		T.eq(data.coins, 30)
+		T.eq(data.buttons, 2)
+	end)
+	T.it("s'arrête après le 22e bouton", function()
+		local data = Data.template()
+		data.buttons = 22
+		data.coins = 1e30
+		T.eq(Shop.buyNextButton(data).reason, "done")
+		T.eq(data.buttons, 22)
+	end)
+	T.it("achète les couches dans l'ordre", function()
+		local data = Data.template()
+		data.coins = 500
+		T.eq(Shop.buyNextDiaper(data).reason, "bought")
+		T.eq(data.diaper, 2)
+		T.eq(data.coins, 100)
+		local result = Shop.buyNextDiaper(data)
+		T.eq(result.reason, "poor")
+		T.eq(result.missing, 5_900)
+		data.diaper = 10
+		T.eq(Shop.buyNextDiaper(data).reason, "done")
+	end)
+end)
