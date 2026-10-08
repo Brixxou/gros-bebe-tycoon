@@ -5,6 +5,7 @@
 --   game.ServerStorage.DebugCommands:Invoke("setButtons", 22)
 --   game.ServerStorage.DebugCommands:Invoke("setDiaper", 10)
 --   game.ServerStorage.DebugCommands:Invoke("setRebirths", 9)
+--   print(game.ServerStorage.DebugCommands:Invoke("welcome", 3600)) -- gains d'une heure d'absence
 --   game.ServerStorage.DebugCommands:Invoke("reset")
 --   print(game.ServerStorage.DebugCommands:Invoke("info"))
 -- Elles visent le premier joueur du serveur.
@@ -13,10 +14,12 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local ServerStorage = game:GetService("ServerStorage")
 
+local Clock = require(script.Parent.Parent.Clock)
 local Data = require(ReplicatedStorage.Shared.Logic.Data)
 local DataService = require(script.Parent.DataService)
 local Format = require(ReplicatedStorage.Shared.Logic.Format)
 local IncomeService = require(script.Parent.IncomeService)
+local OfflineService = require(script.Parent.OfflineService)
 local PlotService = require(script.Parent.PlotService)
 local StateService = require(script.Parent.StateService)
 
@@ -55,6 +58,12 @@ local commands: { [string]: (...any) -> ...any } = {
 		local player, data = target()
 		data.rebirths = count
 		changed(player)
+	end,
+	-- Rejoue l'arrivée du joueur comme s'il était parti `seconds` secondes ; renvoie le gain.
+	welcome = function(seconds: number): string
+		local player, data = target()
+		data.lastSeen = Clock.now() - seconds
+		return Format.number(OfflineService.collect(player, data))
 	end,
 	-- Remet le profil à neuf.
 	reset = function()
