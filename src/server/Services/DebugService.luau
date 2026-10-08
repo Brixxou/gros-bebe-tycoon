@@ -7,6 +7,7 @@
 --   game.ServerStorage.DebugCommands:Invoke("setRebirths", 9)
 --   print(game.ServerStorage.DebugCommands:Invoke("welcome", 3600)) -- gains d'une heure d'absence
 --   print(game.ServerStorage.DebugCommands:Invoke("boards")) -- écrit les scores et relit les classements
+--   game.ServerStorage.DebugCommands:Invoke("setTutorial", 1) -- relance le tutoriel (99 = terminé)
 --   game.ServerStorage.DebugCommands:Invoke("reset")
 --   print(game.ServerStorage.DebugCommands:Invoke("info"))
 -- Elles visent le premier joueur du serveur.
@@ -72,6 +73,12 @@ local commands: { [string]: (...any) -> ...any } = {
 		local player = target()
 		LeaderboardService.save(player)
 		return LeaderboardService.refresh() .. " panneaux relus"
+	end,
+	-- Met le tutoriel à l'étape `step` (1 = début, 99 = terminé).
+	setTutorial = function(step: number)
+		local player, data = target()
+		data.tutorial = step
+		changed(player)
 	end,
 	-- Remet le profil à neuf.
 	reset = function()

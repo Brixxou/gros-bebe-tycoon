@@ -15,6 +15,7 @@ local PlotBuilder = require(script.Parent.Parent.World.PlotBuilder)
 local PlotService = require(script.Parent.PlotService)
 local Poop = require(ReplicatedStorage.Shared.Builders.Poop)
 local Poops = require(ReplicatedStorage.Shared.Logic.Poops)
+local Signal = require(ReplicatedStorage.Shared.Util.Signal)
 local StateService = require(script.Parent.StateService)
 
 local MEGA_SCALE = 1.6
@@ -22,7 +23,9 @@ local MAX_SIZE = 6.4 -- au-delà, le caca ne tient plus sur le tapis
 
 type LivePoop = { model: Model, owner: Player, value: number, expires: number }
 
-local ProductionService = {}
+local ProductionService = {
+	credited = Signal.new(), -- (player, value) : un caca du joueur vient d'être crédité
+}
 
 local live: { [BasePart]: LivePoop } = {}
 local timers: { [Player]: number } = {}
@@ -39,6 +42,7 @@ local function credit(root: BasePart)
 		Poops.credit(data, poop.value)
 		StateService.markDirty(poop.owner)
 		effect:FireClient(poop.owner, "credit", poop.value)
+		ProductionService.credited:fire(poop.owner, poop.value)
 	end
 	poop.model:Destroy()
 end

@@ -20,6 +20,7 @@ local services: { any } = {
 	require(Services.RebirthService),
 	require(Services.OfflineService),
 	require(Services.LeaderboardService),
+	require(Services.TutorialService),
 	require(Services.DebugService),
 }
 
