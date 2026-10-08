@@ -385,7 +385,7 @@ Attendu : `0 errors`, `0 warnings` pour Selene, aucune erreur de type, `1 tests 
 - [ ] **Step 13 : Construire le fichier de place**
 
 ```bash
-export PATH="$HOME/.rokit/bin:$PATH"; rojo build -o build/BigBabyTycoon.rbxlx
+export PATH="$HOME/.rokit/bin:$PATH"; mkdir -p build && rojo build -o build/BigBabyTycoon.rbxlx
 ```
 
 Attendu : `Built project to BigBabyTycoon.rbxlx` (le dossier `build/` est ignoré par git).
@@ -513,7 +513,7 @@ scripts/check.sh                               # format + lint + types + tests :
 lune run tests                                 # tests seuls
 stylua src tests                               # reformater
 rojo serve                                     # synchro live vers Studio (plugin Rojo > Connect)
-rojo build -o build/BigBabyTycoon.rbxlx        # fichier de place
+mkdir -p build && rojo build -o build/BigBabyTycoon.rbxlx   # fichier de place
 ```
 Les outils sont dans `~/.rokit/bin` (ajouté au PATH par `~/.zshenv` ; `scripts/check.sh` l'ajoute aussi).
 

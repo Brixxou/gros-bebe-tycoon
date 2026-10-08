@@ -4377,7 +4377,7 @@ scripts/check.sh                               # format + lint + types + tests :
 lune run tests                                 # tests seuls
 stylua src tests                               # reformater
 rojo serve                                     # synchro live vers Studio (plugin Rojo > Connect)
-rojo build -o build/BigBabyTycoon.rbxlx        # fichier de place
+mkdir -p build && rojo build -o build/BigBabyTycoon.rbxlx   # fichier de place
 ```
 Les outils sont dans `~/.rokit/bin` (ajouté au PATH par `~/.zshenv` ; `scripts/check.sh` l'ajoute aussi).
 
