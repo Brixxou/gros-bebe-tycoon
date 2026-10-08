@@ -1,0 +1,28 @@
+{
+  "name": "BigBabyTycoon",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Shared": { "$path": "src/shared" }
+    },
+    "ServerScriptService": {
+      "Server": { "$path": "src/server" }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "Client": { "$path": "src/client" }
+      }
+    },
+    "LocalizationService": {
+      "Translations": { "$path": "src/Localization.csv" }
+    },
+    "Lighting": {
+      "$properties": {
+        "ClockTime": 14,
+        "Brightness": 2.5,
+        "Ambient": [0.55, 0.5, 0.6],
+        "OutdoorAmbient": [0.65, 0.6, 0.7]
+      }
+    }
+  }
+}

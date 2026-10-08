@@ -1,0 +1,9 @@
+# Fichiers générés
+/build/
+*.rbxl
+*.rbxlx
+*.rbxl.lock
+*.rbxlx.lock
+sourcemap.json
+/.cache/
+.DS_Store
