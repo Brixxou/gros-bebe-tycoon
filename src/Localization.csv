@@ -1,2 +1,47 @@
 Key,Source,Context,Example,fr
 Game.Title,Big Baby Tycoon,,,Big Baby Tycoon
+HUD.Income,+{1}/s,,,+{1}/s
+HUD.Push,PUSH!,,,POUSSE !
+HUD.MyBase,My Base,,,Ma base
+Pad.Free,FREE,,,GRATUIT
+Pad.Next,NEXT,,,SUIVANT
+Toast.NeedMore,You need {1} more PoopCoins!,,,Il te manque {1} PoopCoins !
+Toast.NewDiaper,New diaper: {1}!,,,Nouvelle couche : {1} !
+Toast.MegaPoop,MEGA POOP!,,,MÉGA CACA !
+Table.Title,Changing Table,,,Table à langer
+Table.Action,Change Diaper,,,Changer la couche
+Table.Owned,Owned,,,Possédée
+Table.Wearing,Wearing,,,Portée
+Table.Buy,BUY {1},,,ACHETER {1}
+Button.milk_bottle,Milk Bottle,,,Biberon
+Button.carrot_mash,Carrot Mash,,,Purée de carottes
+Button.play_mat,Play Mat,,,Tapis d'éveil
+Button.applesauce_fountain,Applesauce Fountain,,,Fontaine de compote
+Button.pastel_walls,Pastel Walls,,,Murs pastel
+Button.cereal_cannon,Cereal Cannon,,,Canon à céréales
+Button.crib,Crib,,,Berceau
+Button.nugget_printer,Nugget Printer,,,Imprimante à nuggets
+Button.musical_mobile,Musical Mobile,,,Mobile musical
+Button.spaghetti_waterfall,Spaghetti Waterfall,,,Cascade de spaghetti
+Button.toy_box,Toy Box,,,Coffre à jouets
+Button.pizza_launcher,Pizza Launcher,,,Lance-pizzas
+Button.rocking_horse,Rocking Horse,,,Cheval à bascule
+Button.taco_tornado,Taco Tornado,,,Tornade de tacos
+Button.ball_pit,Ball Pit,,,Piscine à balles
+Button.bean_reactor,Bean Reactor,,,Réacteur à haricots
+Button.slide,Slide,,,Toboggan
+Button.cheese_volcano,Cheese Volcano,,,Volcan de fromage
+Button.giant_teddy,Giant Teddy,,,Nounours géant
+Button.burger_black_hole,Burger Black Hole,,,Trou noir à burgers
+Button.bouncy_castle,Bouncy Castle,,,Château gonflable
+Button.galactic_baby_food,Galactic Baby Food,,,Petit pot galactique
+Diaper.cloth,Cloth,,,Tissu
+Diaper.camo,Camo,,,Camouflage
+Diaper.gold,Gold,,,Or
+Diaper.diamond,Diamond,,,Diamant
+Diaper.lava,Lava,,,Lave
+Diaper.rainbow,Rainbow,,,Arc-en-ciel
+Diaper.neon,Neon,,,Néon
+Diaper.unicorn,Unicorn,,,Licorne
+Diaper.galaxy,Galaxy,,,Galaxie
+Diaper.cosmic,Cosmic,,,Cosmique
