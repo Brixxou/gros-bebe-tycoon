@@ -34,4 +34,14 @@ function MyPlot.waitForPart(name: string, timeout: number): BasePart?
 	return nil
 end
 
+-- Pièce de la nursery par son chemin depuis la nursery, ex. « PadActive.Disk » ou « Baby.Diaper ».
+function MyPlot.path(path: string): BasePart?
+	local slot = MyPlot.get()
+	local current: Instance? = if slot then slot:FindFirstChild("Nursery") else nil
+	for _, name in string.split(path, ".") do
+		current = if current then current:FindFirstChild(name) else nil
+	end
+	return if current and current:IsA("BasePart") then current else nil
+end
+
 return MyPlot
