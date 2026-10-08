@@ -11,6 +11,10 @@ local Services = script.Services
 local services: { any } = {
 	require(Services.DataService),
 	require(Services.PlotService),
+	require(Services.IncomeService),
+	require(Services.StateService),
+	require(Services.ProductionService),
+	require(Services.DebugService),
 }
 
 for _, service in services do
