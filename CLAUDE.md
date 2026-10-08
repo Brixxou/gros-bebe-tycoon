@@ -19,20 +19,24 @@ default.project.json     arbre Rojo : shared → ReplicatedStorage.Shared, serve
                          client → StarterPlayerScripts.Client, Localization.csv → LocalizationService
 rokit.toml               versions des outils
 scripts/check.sh         format + lint + types + tests (à lancer avant chaque commit)
-src/shared/Config/       contenu et chiffres (données pures) : Buttons, Diapers, Economy, World, Game
+src/shared/Config/       contenu et chiffres (données pures) : Buttons, Diapers, Economy, World, Game, Rebirth,
+                         Leaderboards, Tutorial
 src/shared/Logic/        logique pure testée (aucune API Roblox) : Format, Data, Wallet, Economy, Poops, Shop,
-                         Clicks, RateLimit, Version
-src/shared/Builders/     modèles cartoon en formes Roblox : Parts (outils), Baby, Poop, Pad, Machine, Decor, Furniture
+                         Clicks, RateLimit, Rebirth, Offline, Leaderboard, Tutorial, Version
+src/shared/Builders/     modèles cartoon en formes Roblox : Parts (outils), Baby, Poop, Pad, Machine, Decor,
+                         Furniture, Crown, Board
 src/shared/Net.luau      les RemoteEvents (noms) et le type Snapshot
 src/shared/Util/Signal   signal minimal
 src/server/init.server   crée les remotes, init puis start des services dans l'ordre
 src/server/Services/     DataService (ProfileStore), PlotService (bases), IncomeService (revenu), StateService
                          (envoi de l'état), ProductionService (cacas), ClickService (PUSH!), ShopService (dalles,
-                         couches), DebugService (commandes Studio)
-src/server/World/        Layout (positions dans une base), MapBuilder (map), PlotBuilder (nursery)
+                         couches), LeaderstatsService, RebirthService, AnnounceService, OfflineService (gains hors
+                         ligne), LeaderboardService (classements mondiaux, couronnes), TutorialService, DebugService
+src/server/World/        Layout (positions dans une base), MapBuilder (map, panneaux), PlotBuilder (nursery)
 src/server/Clock.luau    heure du serveur
 src/client/              init.client, State (dernier état reçu), MyPlot (base du joueur), Text (traductions),
-                         UI/ (Theme, New, Screen, Toasts, Hud, DiaperPanel), Effects/ (FloatingText, Shake, Effects)
+                         UI/ (Theme, New, Screen, Toasts, Hud, DiaperPanel, RebirthPanel, WelcomePanel, Banner,
+                         TutorialGuide), Effects/ (FloatingText, Shake, Effects)
 src/Localization.csv     textes : Key, Source (anglais), fr
 tests/                   specs Lune (*.spec.luau), runner tests/init.luau, mini framework tests/lib/t.luau
 ```
@@ -64,22 +68,32 @@ Tester dans Studio : `rojo serve`, plugin Rojo > Connect, puis Play. Commandes d
 ```lua
 local Debug = game.ServerStorage.DebugCommands
 Debug:Invoke("give", 1e9) ; Debug:Invoke("setButtons", 22) ; Debug:Invoke("setDiaper", 10)
-Debug:Invoke("reset") ; print(Debug:Invoke("info"))
+Debug:Invoke("setRebirths", 9) ; Debug:Invoke("setTutorial", 1) ; Debug:Invoke("reset")
+print(Debug:Invoke("welcome", 3600)) ; print(Debug:Invoke("boards")) ; print(Debug:Invoke("info"))
 ```
 
 Pièges :
-- Sans accès aux API (jeu non publié, ou « Enable Studio Access to API Services » désactivé), ProfileStore tourne en mémoire et ne sauvegarde rien : la sortie affiche « Roblox API services unavailable ».
-- En Studio, la base de données s'appelle `Profiles_v1_Studio` : les tests ne touchent jamais aux vrais joueurs.
+- Sans accès aux API (jeu non publié, ou « Enable Studio Access to API Services » désactivé), ProfileStore tourne en mémoire et ne sauvegarde rien : la sortie affiche « Roblox API services unavailable ». Les classements mondiaux restent alors sur « Loading... ».
+- En Studio, les DataStores ont le suffixe `_Studio` (`Profiles_v1_Studio`, `Rebirths_v1_Studio`, `TotalEarned_v1_Studio`) : les tests ne touchent jamais aux vrais joueurs.
 - Un `require` par chaîne n'attend pas la réplication : le client attend `game.Loaded` avant de charger ses modules.
 - `-- stylua: ignore` garde les tables de contenu (Buttons, Diapers) sur une ligne par entrée.
+- Dans `Localization.csv`, un texte qui contient une virgule est entre guillemets (`""` = un guillemet).
+- `FormatByKey` écrit un nombre avec deux décimales (« 25.00 ») : `Text.get` convertit les nombres en texte, ne pas l'appeler en direct.
 - MCP de Studio : le serveur est déclaré dans `.mcp.json` (commande `/Applications/RobloxStudio.app/Contents/MacOS/StudioMCP`). Dans Studio, l'activer une fois : bouton Assistant (icône atome, en haut à droite) > … > Settings > MCP Servers > « Enable Studio as MCP server ». Une session Claude Code ne charge les serveurs MCP qu'à son démarrage. `execute_luau` ne renvoie que la première valeur de retour : renvoyer une seule chaîne.
 - Le plugin Rojo vient du Creator Store (Rojo Foundation) ; il propose « Connect » dès que `rojo serve` tourne. Il lui faut la permission « Script Injection » (Plugins > Manage Plugins) : sans elle, la sortie affiche « Plugin "Rojo" was denied script injection permission » et les scripts ne se mettent plus à jour.
-- `StudsOffsetWorldSpace` d'un BillboardGui suit le repère de son Adornee, pas celui du monde : sur une pièce couchée (cylindre tourné), « vers le haut » n'est plus l'axe Y (voir `Builders/Pad.luau`).
+- Rojo pousse les fichiers avec un petit délai, et une partie de test déjà lancée garde l'ancien code : avant Play, vérifier en mode Edit que le code attendu est arrivé.
+- La place est en édition collaborative (Team Create) : ce qu'on crée en mode Edit (aperçus de constructeurs) reste dans la place, donc toujours le supprimer après.
+- `TextChatService.ChatVersion` est protégée (ni Rojo ni le MCP ne peuvent l'écrire) : la place doit être réglée à la main sur `TextChatService` dans Studio (Explorer > TextChatService > Properties). `default.project.json` la déclare pour `rojo build`.
+- `StudsOffsetWorldSpace` d'un BillboardGui suit le repère de son Adornee, pas celui du monde : sur une pièce couchée (cylindre tourné), « vers le haut » n'est plus l'axe Y (voir `Builders/Pad.luau`). De même, une Beam courbée suit l'axe X de ses Attachments.
 
 ## État actuel
-**Phase 1 (le cœur)** : map (place centrale + 6 bases générées par code), une base attribuée à chaque joueur, bébé qui grossit, 22 boutons achetés en se tenant sur la dalle (12 machines, 10 décos), cacas physiques sur le tapis jusqu'au pot, clic PUSH! (bouton ou couche) et méga caca tous les 50 clics, 10 couches à la table à langer, sauvegarde ProfileStore, HUD (PoopCoins, revenu, Tétines, PUSH!, My Base), traductions françaises, commandes Debug en Studio. 38 tests Lune.
+**Phase 2 (progression)** : rebirth (Couche Cosmique + 30B × 1,6^R PoopCoins en poche ; +50 % de PoopCoins pour toujours et 25 × R Tétines), leaderstats, classements mondiaux « Biggest Babies » et « Poop Kings » sur la place (top 50, couronnes du top 3), gains hors ligne avec l'écran « Welcome back », tutoriel des nouveaux joueurs (bulle + flèche, 5 étapes, +25 Tétines), annonces des 10e, 25e et 50e rebirths. 57 tests Lune.
 
-Prochaine étape : phase 2 (rebirth, classements, gains hors ligne, tutoriel, annonces), avec son propre plan.
+Phase 1 (le cœur) : map, bases, bébé, 22 boutons, cacas, PUSH! et méga caca, 10 couches, sauvegarde, HUD, traductions, commandes Debug.
+
+À vérifier dès que l'accès aux API est activé en Studio : la sauvegarde (quitter puis revenir : tout est là, phases 1 et 2) et les scores des classements mondiaux (tâche 11 du plan de la phase 2).
+
+Prochaine étape : phase 3 (monétisation), avec son propre plan. Nathan crée d'abord les 4 passes et les 6 produits dans le Creator Dashboard.
 
 ## Phases (spec, section 13)
 0 Outillage · 1 Le cœur (bases, bébé, cacas, clic, couches, sauvegarde, HUD) · 2 Progression (rebirth, classements, hors ligne, tuto) · 3 Monétisation · 4 Pets · 5 Rétention · 6 Finition et lancement.
