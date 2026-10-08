@@ -45,3 +45,27 @@ Diaper.neon,Neon,,,Néon
 Diaper.unicorn,Unicorn,,,Licorne
 Diaper.galaxy,Galaxy,,,Galaxie
 Diaper.cosmic,Cosmic,,,Cosmique
+HUD.Rebirth,Rebirth,,,Rebirth
+Toast.Rebirth,Rebirth #{1}! PoopCoins x{2} forever!,,,Rebirth n°{1} ! PoopCoins x{2} pour toujours !
+Toast.CantRebirth,You can't rebirth yet!,,,Tu ne peux pas encore faire de rebirth !
+Rebirth.NeedDiaper,Cosmic Diaper,,,Couche Cosmique
+Rebirth.NeedCoins,{1} PoopCoins in your pocket,,,{1} PoopCoins en poche
+Rebirth.Multiplier,PoopCoins x{1} → x{2},,,PoopCoins x{1} → x{2}
+Rebirth.Reward,+{1} Binkies,,,+{1} Tétines
+Rebirth.Lose,You lose: PoopCoins · buttons · diapers,,,Tu perds : PoopCoins · boutons · couches
+Rebirth.Keep,You keep: Binkies · rebirths · stats,,,Tu gardes : Tétines · rebirths · stats
+Rebirth.Button,REBIRTH!,,,REBIRTH !
+Rebirth.Confirm,SURE? CLICK AGAIN!,,,SÛR ? CLIQUE ENCORE !
+Welcome.Title,Welcome back!,,,Bon retour !
+Welcome.Body,"While you were away, your baby made {1} PoopCoins!",,,"Pendant ton absence, ton bébé a fait {1} PoopCoins !"
+Welcome.Ok,Awesome!,,,Génial !
+Announce.Rebirth,{1} just reached {2} rebirths!,,,{1} vient d'atteindre {2} rebirths !
+Board.Rebirths,Biggest Babies,,,Plus gros bébés
+Board.Earned,Poop Kings,,,Rois du caca
+Board.Loading,Loading...,,,Chargement...
+Tutorial.bottle,Step on the glowing pad to get a Milk Bottle!,,,Monte sur la dalle lumineuse pour avoir un biberon !
+Tutorial.push,Push the baby's diaper 10 times! ({1}/10),,,Appuie 10 fois sur la couche du bébé ! ({1}/10)
+Tutorial.poop,Watch the poop roll into the potty!,,,Regarde le caca rouler jusqu'au pot !
+Tutorial.carrot,Buy the Carrot Mash on the glowing pad!,,,Achète la purée de carottes sur la dalle lumineuse !
+Tutorial.camo,Buy the Camo diaper at the Changing Table!,,,Achète la couche Camouflage à la table à langer !
+Tutorial.Done,+{1} Binkies! Now make your baby the biggest in the world!,,,"+{1} Tétines ! Maintenant, fais de ton bébé le plus gros du monde !"
