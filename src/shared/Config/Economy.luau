@@ -14,4 +14,7 @@ return {
 	vipBonus = 1.2, -- pass VIP
 	premiumBonus = 1.1, -- abonnés Roblox Premium
 	beltSpeed = 12, -- studs par seconde
+	offlineShare = 0.25, -- gains hors ligne : 25 % du revenu de base…
+	offlineCapSeconds = 8 * 3600, -- …pendant 8 h d'absence au plus
+	offlineMinSeconds = 60, -- moins d'une minute d'absence : rien
 }

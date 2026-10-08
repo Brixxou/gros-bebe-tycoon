@@ -3,6 +3,7 @@
 local Buttons = require("../Config/Buttons")
 local Config = require("../Config/Economy")
 local Diapers = require("../Config/Diapers")
+local Rebirth = require("./Rebirth")
 
 export type IncomeInput = {
 	buttons: number,
@@ -41,7 +42,7 @@ end
 function Economy.baseIncome(input: IncomeInput): number
 	local multiplier = Economy.diaperMultiplier(input.diaper)
 		* Economy.decorMultiplier(input.buttons)
-		* (1 + Config.rebirthBonus * input.rebirths)
+		* Rebirth.multiplier(input.rebirths)
 		* (1 + input.petBonus)
 	if input.doubleCoins then
 		multiplier *= Config.doubleCoins
