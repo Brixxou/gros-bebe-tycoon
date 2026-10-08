@@ -55,6 +55,8 @@ Tester dans Studio : `rojo serve`, plugin Rojo > Connect, puis Play.
 Pièges :
 - Sans accès aux API (jeu non publié, ou « Enable Studio Access to API Services » désactivé), ProfileStore tourne en mémoire et ne sauvegarde rien : la sortie affiche « Roblox API services unavailable ».
 - Un `require` par chaîne n'attend pas la réplication : le client attend `game.Loaded` avant de charger ses modules.
+- MCP de Studio : le serveur est déclaré dans `.mcp.json` (commande `/Applications/RobloxStudio.app/Contents/MacOS/StudioMCP`). Dans Studio, l'activer une fois : bouton Assistant (icône atome, en haut à droite) > … > Settings > MCP Servers > « Enable Studio as MCP server ». Une session Claude Code ne charge les serveurs MCP qu'à son démarrage.
+- Le plugin Rojo vient du Creator Store (Rojo Foundation) ; il propose « Connect » dès que `rojo serve` tourne.
 
 ## État actuel
 Phase 0 (outillage) : outils, squelette, Studio relié par Rojo et par le MCP, jeu publié en privé. Prochaine étape : phase 1 (le cœur du jeu).

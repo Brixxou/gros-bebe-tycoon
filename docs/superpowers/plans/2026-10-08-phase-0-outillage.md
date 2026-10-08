@@ -436,10 +436,10 @@ export PATH="$HOME/.rokit/bin:$PATH"; rojo serve
 
 - [ ] **Step 5 (Nathan) : Connecter Rojo et activer le MCP de Studio**
 
-1. Plugins > Rojo > Connect (adresse `localhost`, port `34872`).
-2. Assistant > … > Manage MCP Servers : activer « Enable Studio as MCP server ».
-3. Assistant Settings > MCP Servers > Quick connect : activer « Claude Code ».
-4. Redémarrer la session Claude Code pour charger les outils du MCP de Studio.
+1. Plugins > Rojo > Connect (adresse `localhost`, port `34872`). Avec `rojo serve` lancé, le plugin propose aussi « Connect » dans une notification en bas à droite.
+2. Bouton Assistant (icône atome, en haut à droite) > … > Settings > MCP Servers : activer « Enable Studio as MCP server ».
+3. Claude déclare le serveur dans le projet : `claude mcp add --scope project Roblox_Studio -- /Applications/RobloxStudio.app/Contents/MacOS/StudioMCP` (fichier `.mcp.json`, à commiter).
+4. Ouvrir une nouvelle session Claude Code dans ce dossier : les serveurs MCP ne se chargent qu'au démarrage d'une session.
 
 - [ ] **Step 6 : Vérifier le jeu dans Studio par le MCP**
 
