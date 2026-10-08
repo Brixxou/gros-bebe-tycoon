@@ -10,6 +10,7 @@ return {
 		muted = Color3.fromHex("#B8A9C9"),
 		push = Color3.fromHex("#FF9F1C"),
 		accent = Color3.fromHex("#FF8FAB"),
+		rebirth = Color3.fromHex("#9B5DE5"),
 		white = Color3.fromHex("#FFFFFF"),
 	},
 	fonts = {

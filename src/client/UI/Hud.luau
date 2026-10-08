@@ -1,6 +1,6 @@
 --!strict
 -- HUD : PoopCoins, revenu et Tétines en haut ; bouton PUSH! en bas à droite (au-dessus du saut mobile) ;
--- bouton « My Base » à gauche.
+-- boutons « Rebirth » et « My Base » à gauche.
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
@@ -12,6 +12,7 @@ local MyPlot = require(script.Parent.Parent.MyPlot)
 local Net = require(ReplicatedStorage.Shared.Net)
 local New = require(script.Parent.New)
 local RateLimit = require(ReplicatedStorage.Shared.Logic.RateLimit)
+local RebirthPanel = require(script.Parent.RebirthPanel)
 local Screen = require(script.Parent.Screen)
 local State = require(script.Parent.Parent.State)
 local Text = require(script.Parent.Parent.Text)
@@ -153,6 +154,26 @@ function Hud.start()
 		),
 	})
 	home.Activated:Connect(goHome)
+
+	local rebirth = New("TextButton", {
+		Name = "Rebirth",
+		AnchorPoint = Vector2.new(0, 0.5),
+		Position = UDim2.new(0, 16, 0.5, -76),
+		Size = UDim2.fromOffset(170, 60),
+		BackgroundColor3 = Theme.colors.rebirth,
+		Font = Theme.fonts.title,
+		Text = "Rebirth",
+		TextSize = 28,
+		TextColor3 = Theme.colors.white,
+		Parent = gui,
+	}, {
+		New("UICorner", { CornerRadius = UDim.new(0, 14) }),
+		New(
+			"UIStroke",
+			{ Thickness = 4, Color = Theme.colors.stroke, ApplyStrokeMode = Enum.ApplyStrokeMode.Border }
+		),
+	})
+	rebirth.Activated:Connect(RebirthPanel.open)
 
 	State.changed:connect(function(snapshot: Net.Snapshot)
 		coins.Text = "💩 " .. Format.number(snapshot.coins)

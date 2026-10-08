@@ -16,7 +16,7 @@ function Toasts.start()
 		Name = "List",
 		BackgroundTransparency = 1,
 		AnchorPoint = Vector2.new(0.5, 0),
-		Position = UDim2.new(0.5, 0, 0, 150),
+		Position = UDim2.new(0.5, 0, 0, 220), -- sous la bannière des annonces
 		Size = UDim2.fromOffset(560, 300),
 		Parent = gui,
 	}, {
