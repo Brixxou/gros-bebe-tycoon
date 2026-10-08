@@ -3,8 +3,16 @@
 -- Chaque emplacement est un Model « PlotN » avec l'attribut Origin (CFrame, -Z vers la place).
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local Board = require(ReplicatedStorage.Shared.Builders.Board)
 local Parts = require(ReplicatedStorage.Shared.Builders.Parts)
 local World = require(ReplicatedStorage.Shared.Config.World)
+
+-- Les deux classements mondiaux, de part et d'autre du chemin de la base 1, face au centre de la place.
+local BOARDS = {
+	{ name = "BoardRebirths", title = "Biggest Babies", color = "#7FB3F5", angle = 30 },
+	{ name = "BoardEarned", title = "Poop Kings", color = "#F5A65B", angle = -30 },
+}
+local BOARD_DISTANCE = 46 -- distance au centre de la place
 
 local MapBuilder = {}
 
@@ -33,6 +41,14 @@ function MapBuilder.build(): { Model }
 	spawn.Neutral = true
 	spawn.Duration = 0
 	spawn.Parent = map
+
+	for _, info in BOARDS do
+		local angle = math.rad(info.angle)
+		local position = Vector3.new(math.sin(angle), 0, math.cos(angle)) * BOARD_DISTANCE
+		local board = Board.build(info.name, info.title, info.color)
+		board:PivotTo(CFrame.lookAt(position, Vector3.zero))
+		board.Parent = map
+	end
 
 	local plots = Instance.new("Folder")
 	plots.Name = "Plots"

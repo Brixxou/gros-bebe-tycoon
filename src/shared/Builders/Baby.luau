@@ -1,11 +1,13 @@
 --!strict
 -- Le gros bébé, en boules et cylindres. Il regarde vers -Z ; pivot au sol, au centre.
 -- Sa couche (« Diaper ») porte un ClickDetector : cliquer dessus = PUSH!.
+local Crown = require("./Crown")
 local Parts = require("./Parts")
 
 local SKIN = "#FFD6B0"
 local CHEEK = "#FF9AA2"
 local DARK = "#2B2B2B"
+local CROWN_HEIGHT = 9.9 -- à l'échelle 1 : hauteur où la couronne se pose sur la tête
 
 local Baby = {}
 
@@ -39,6 +41,23 @@ function Baby.setDiaper(model: Model, color: string, material: string)
 		diaper.Color = Color3.fromHex(color)
 		diaper.Material = Parts.material(material)
 	end
+end
+
+-- Pose la couronne du top 3 mondial (couleur en hexadécimal) sur la tête du bébé, ou l'enlève (nil).
+-- Elle fait partie du modèle : elle suit le bébé quand il grossit.
+function Baby.setCrown(model: Model, color: string?)
+	local existing = model:FindFirstChild("Crown")
+	if existing then
+		existing:Destroy()
+	end
+	if color == nil then
+		return
+	end
+	local scale = model:GetScale()
+	local crown = Crown.build(color)
+	crown:ScaleTo(scale)
+	crown:PivotTo(model:GetPivot() * CFrame.new(0, CROWN_HEIGHT * scale, -0.2 * scale))
+	crown.Parent = model
 end
 
 return Baby
