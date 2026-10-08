@@ -6,6 +6,7 @@
 --   game.ServerStorage.DebugCommands:Invoke("setDiaper", 10)
 --   game.ServerStorage.DebugCommands:Invoke("setRebirths", 9)
 --   print(game.ServerStorage.DebugCommands:Invoke("welcome", 3600)) -- gains d'une heure d'absence
+--   print(game.ServerStorage.DebugCommands:Invoke("boards")) -- écrit les scores et relit les classements
 --   game.ServerStorage.DebugCommands:Invoke("reset")
 --   print(game.ServerStorage.DebugCommands:Invoke("info"))
 -- Elles visent le premier joueur du serveur.
@@ -19,6 +20,7 @@ local Data = require(ReplicatedStorage.Shared.Logic.Data)
 local DataService = require(script.Parent.DataService)
 local Format = require(ReplicatedStorage.Shared.Logic.Format)
 local IncomeService = require(script.Parent.IncomeService)
+local LeaderboardService = require(script.Parent.LeaderboardService)
 local OfflineService = require(script.Parent.OfflineService)
 local PlotService = require(script.Parent.PlotService)
 local StateService = require(script.Parent.StateService)
@@ -64,6 +66,12 @@ local commands: { [string]: (...any) -> ...any } = {
 		local player, data = target()
 		data.lastSeen = Clock.now() - seconds
 		return Format.number(OfflineService.collect(player, data))
+	end,
+	-- Écrit les scores du joueur puis relit les classements, sans attendre les 2 min.
+	boards = function(): string
+		local player = target()
+		LeaderboardService.save(player)
+		return LeaderboardService.refresh() .. " panneaux relus"
 	end,
 	-- Remet le profil à neuf.
 	reset = function()
