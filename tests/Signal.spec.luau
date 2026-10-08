@@ -1,0 +1,25 @@
+local T = require("./lib/t")
+local Signal = require("../src/shared/Util/Signal")
+
+T.describe("Signal", function()
+	T.it("appelle les handlers avec les arguments", function()
+		local signal = Signal.new()
+		local received = {}
+		signal:connect(function(a, b)
+			table.insert(received, a .. b)
+		end)
+		signal:fire("x", "y")
+		T.eq(received[1], "xy")
+	end)
+	T.it("arrête d'appeler un handler déconnecté", function()
+		local signal = Signal.new()
+		local count = 0
+		local disconnect = signal:connect(function()
+			count += 1
+		end)
+		signal:fire()
+		disconnect()
+		signal:fire()
+		T.eq(count, 1)
+	end)
+end)
