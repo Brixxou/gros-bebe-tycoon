@@ -25,8 +25,10 @@ function Pad.build(name: string): Model
 	})
 	local billboard = Instance.new("BillboardGui")
 	billboard.Name = "Label"
-	billboard.Size = UDim2.fromOffset(260, 110)
-	billboard.StudsOffsetWorldSpace = Vector3.new(0, 5, 0)
+	-- Taille en studs : l'étiquette rapetisse avec la distance et ne chevauche pas celle de la dalle voisine.
+	billboard.Size = UDim2.fromScale(9, 3.8)
+	-- Décalage dans le repère du disque : il est couché, son axe X pointe vers le haut.
+	billboard.StudsOffsetWorldSpace = Vector3.new(5, 0, 0)
 	billboard.MaxDistance = 150
 	billboard.Adornee = disk
 	billboard.Parent = disk
