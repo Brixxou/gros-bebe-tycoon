@@ -42,6 +42,7 @@ tests/                   specs Lune (*.spec.luau), runner tests/init.luau, mini 
 ```
 
 ## Règles
+0. **Le repo est public** (github.com/Brixxou/gros-bebe-tycoon) : jamais de clé d'API (Open Cloud…), de cookie Roblox, de mot de passe ni d'e-mail perso dans un fichier ou un commit. Les commits de ce repo utilisent l'adresse anonyme GitHub (`git config user.email` local). Les IDs de passes et de produits ne sont pas secrets.
 1. **Le serveur décide de tout.** Le client n'envoie que des intentions (remotes de `Net.luau`) et affiche. Le serveur valide tout : propriétaire de la base, argent, fréquence (`RateLimit`), type et taille des arguments.
 2. **Logique pure dans `src/shared/Logic`** : aucune API Roblox, `--!strict`, testée avec Lune. Entre modules purs, `require` par chemin relatif (`require("./Format")`, `require("../Config/Buttons")`), sans fichier `init`, pour que le même code se charge dans Lune et dans Roblox. Le code Roblox charge les modules par instance (`require(ReplicatedStorage.Shared.Logic.Format)`). **Effets de bord dans les Services.**
 3. **Contenu et chiffres uniquement dans `src/shared/Config`.**
